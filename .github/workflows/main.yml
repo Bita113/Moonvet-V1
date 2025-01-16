@@ -1,35 +1,28 @@
-name: Translate HTML Files
+name: Automate Translation
 
 on:
   push:
     branches:
-      - main  # Rulează automat la push pe branch-ul principal
+      - main  # Rulează workflow-ul când există modificări pe branch-ul principal
 
 jobs:
   translate:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3  # Verifică codul din repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3  # Ia codul din repository-ul tău
 
-    - name: Set up Python
-      uses: actions/setup-python@v3  # Configurează Python
-      with:
-        python-version: 3.9
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Instalează Python
 
-    - name: Install Dependencies
-      run: |
-        pip install googletrans==4.0.0-rc1  # Instalează biblioteca Google Translate
+      - name: Install Translation Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install googletrans==4.0.0-rc1  # Instalare Google Translate API
 
-    - name: Translate HTML Files
-      run: |
-        python translate_script.py  # Rulează scriptul Python pentru traducere
+      - name: Run Translation Script
+        run: python translate_script.py  # Rulează scriptul de traducere
 
-    - name: Commit Changes
-      run: |
-        git config --global user.name "GitHub Action"
-        git config --global user.email "actions@github.com"
-        git add .
-        git commit -m "Translated HTML files"
-        git push
