@@ -1,28 +1,27 @@
-name: Automate Translation
+name: Auto Translate HTML
 
 on:
   push:
     branches:
-      - main  # Rulează workflow-ul când există modificări pe branch-ul principal
+      - main
 
 jobs:
   translate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3  # Ia codul din repository-ul tău
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set Up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'  # Instalează Python
+    - name: Setup Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
 
-      - name: Install Translation Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install googletrans==4.0.0-rc1  # Instalare Google Translate API
+    - name: Install dependencies
+      run: |
+        pip install googletrans==4.0.0-rc1
 
-      - name: Run Translation Script
-        run: python translate_script.py  # Rulează scriptul de traducere
-
+    - name: Run Translation Script
+      run: |
+        python translate_script.py
